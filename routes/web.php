@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(GroupController::class)->group(function () {
         Route::post('creat-group','creat_group')->name('creat.group');
         Route::get('join-group','join_group')->name('join.group');
-        Route::get('group/{id}','group')->name('group');
+        Route::get('group/{id}', 'group')->name('group.show');
         Route::get('show-groups','show_groups')->name('show.groups');
         Route::post('store', 'post_store_group')->name('posts.store.group');
         Route::post('posts-report-group/{post}', 'report_admin_groupe')->name('posts.report.admin.groupe');
@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::post('action-post-group', 'action_post_group')->name('action.post.group');
         Route::get('login1', function () {
             return view('login1');
-        })->name('login');
+        })->name('login1');
     });
 });
 

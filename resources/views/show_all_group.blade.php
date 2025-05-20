@@ -18,7 +18,7 @@
                                 <img src="{{ asset($group->image) }}" class="card-img-top img-fluid" style="height: 120px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" alt="{{ $group->name }}">
                                 <div class="card-body d-flex flex-column p-2">
                                     <h5 class="card-title">
-                                        <a href="{{ route('group', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
+                                        <a href="{{ route('group.show', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
                                     </h5>
                                     <p class="mb-1 text-primary">Members: {{ $group->users_count }}</p>
                                     <div class="mt-auto">
@@ -41,7 +41,7 @@
                                 <img src="{{ asset($group->image) }}" class="card-img-top img-fluid" style="height: 120px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" alt="{{ $group->name }}">
                                 <div class="card-body d-flex flex-column p-2">
                                     <h5 class="card-title">
-                                        <a href="{{ route('group', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
+                                        <a href="{{ route('group.show', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
                                     </h5>
                                     <p class="mb-1 text-primary">Members: {{ $group->users_count }}</p>
                                     <div class="mt-auto">
@@ -66,7 +66,7 @@
                                 <img src="{{ asset($group->image) }}" class="card-img-top img-fluid" style="height: 120px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" alt="{{ $group->name }}">
                                 <div class="card-body d-flex flex-column p-2">
                                     <h5 class="card-title">
-                                        <a href="{{ route('group', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
+                                        <a href="{{ route('group.show', ['id' => $group->id]) }}" class="text-info">{{ $group->name }}</a>
                                     </h5>
                                     <p class="mb-1 text-primary">Members: {{ $group->users_count }}</p>
                                     <div class="mt-auto">

@@ -86,7 +86,6 @@
                                 </span>
                             </div>
                         </a>
-
                         <div class="clear m-b">
                             <h3 class="m-0 m-b-xs">{{ $name->name }}</h3>
                             <p class="text-muted"><span class="m-r">{{ $name->first()->phone_number }}</span><small><i class="fa fa-map-marker m-r-xs"></i></small></p>
@@ -123,19 +122,18 @@
                         </div>
                         <div class="avatar-container">
                             @if(auth()->user()->id == $user->id||auth()->user()->role_id==1||auth()->user()->role_id==2)
-                                @if(auth()->user()->id == $user->id)
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editImageModal">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
-                                @endif
+                                
                                     <a href="{{ route('add.or.demote.or.delete.or.block', ['id'=>$user->id,"task_id"=>0,"view"=>'profile']) }}"  class="d-inline">
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
                                             <i class="bi bi-trash"></i> Delete
                                         </button>
                                     </a>
                             @endif
-
-                            <!-- Modal -->
+                            @if(auth()->user()->id == $user->id)
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editImageModal">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            @endif
                             <div class="modal fade" id="editImageModal" tabindex="-1" role="dialog" aria-labelledby="editImageModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -186,56 +184,7 @@
                 </div>
             </div>
         </div>
-
-        <style>
-            .btn-sm {
-                padding: 5px 10px;
-                font-size: 12px;
-                line-height: 1.5;
-            }
-
-            .btn-primary {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
-
-            .img-square {
-                width: 100%;
-                height: auto;
-                max-width: 600px;
-                max-height: 600px;
-                object-fit: cover;
-                border-radius: 0;
-            }
-
-            .avatar-img {
-                width: 50px;
-                height: 50px;
-                object-fit: cover;
-                border-radius: 50%;
-            }
-        </style>
-        <style>
-            .btn-icon-only {
-                padding: 0.25rem !important;
-                width: 20px !important;
-                height:20px !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-            .btn-icon-only i {
-                font-size: 0.875rem !important; /* تقليل حجم الأيقونة */
-            }
-            .btn-rounded {
-                border-radius: 1px !important; /* تقليل نصف قطر الحدود */
-            }
-            .shadow-sm {
-                box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-            }
-        </style>
     </div>
-
-
             <div class="dker p-x">
                 <div class="row">
                     <div class="col-sm-6 push-sm-6">
@@ -719,6 +668,52 @@
             .avatar-img {
                 width: 35px;
                 height: 35px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        </style>
+        <style>
+            .btn-icon-only {
+                padding: 0.25rem !important;
+                width: 20px !important;
+                height:20px !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .btn-icon-only i {
+                font-size: 0.875rem !important; /* تقليل حجم الأيقونة */
+            }
+            .btn-rounded {
+                border-radius: 1px !important; /* تقليل نصف قطر الحدود */
+            }
+            .shadow-sm {
+                box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+            }
+        </style>
+          <style>
+            .btn-sm {
+                padding: 5px 10px;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .img-square {
+                width: 100%;
+                height: auto;
+                max-width: 600px;
+                max-height: 600px;
+                object-fit: cover;
+                border-radius: 0;
+            }
+
+            .avatar-img {
+                width: 50px;
+                height: 50px;
                 object-fit: cover;
                 border-radius: 50%;
             }

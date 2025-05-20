@@ -166,22 +166,14 @@
             </div>
         </div>
     </div>
-
     <div id="content" class="app-content box-shadow-z0" role="main">
         @yield('content2')
         <div class="app-header white box-shadow">
-
             <div class="navbar navbar-toggleable-sm flex-row align-items-center">
-
-                <!-- Open side - Naviation on mobile -->
                 <a data-toggle="modal" data-target="#aside" class="hidden-lg-up mr-3">
 
                     <i class="material-icons">&#xe5d2;</i>
-
                 </a>
-
-
-
                 <div class="collapse navbar-collapse" id="collapse">
                     <form action="{{ route('posts.search') }}" method="POST" class="form-inline my-2 my-lg-0">
                         @csrf
@@ -190,6 +182,7 @@
                             <i class="material-icons"></i>
                         </button>
                     </form>
+                    
                     @if(Route::currentRouteName() == 'posts'&&auth()->user()->block!=1)
                         @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
                             <button class="btn btn-info mb-2 create-group-btn" data-toggle="modal" data-target="#createGroupModal">Create Group</button>
@@ -211,40 +204,13 @@
 
 
 
-                <ul class="nav navbar-nav ml-auto flex-row">
-                    <li class="nav-item dropdown pos-stc-xs">
-
-                        <a class="nav-link mr-2" href data-toggle="dropdown">
-                            <i class="material-icons">&#xe7f5;</i>
-                            <span class="label label-sm up warn">3</span>
-                        </a>
-                        <div ui-include="'../views/blocks/dropdown.notification.html'"></div>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link p-0 clear" href="#" data-toggle="dropdown">
-                <span class="avatar w-32">
-                    <img src="../assets/images/a0.jpg" alt="...">
-                    <i class="on b-white bottom"></i>
-                </span>
-                        </a>
-                        <div ui-include="'../views/blocks/dropdown.user.html'"></div>
-                    </li>
-
-                    <li class="nav-item hidden-md-up">
-                        <a class="nav-link pl-2" data-toggle="collapse" data-target="#collapse">
-                            <i class="material-icons">&#xe5d4;</i>
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- / navbar right -->
+                
+                  
             </div>
 
         </div>
         <div class="align-content-center">
             <div class="content-section">
-                @yield('content1')
             </div>
             <div class="content-section">
                 @yield('content3')
@@ -264,13 +230,22 @@
             </div>
         </div>
     </div>
-
+    @yield('content1')
+    
         <!-- theme switcher -->
         <div id="switcher">
             <div class="switcher box-color dark-white text-color" id="sw-theme">
+
+
+
+
                 <a href ui-toggle-class="active" target="#sw-theme" class="box-color dark-white text-color sw-btn">
                     <i class="fa fa-gear"></i>
                 </a>
+
+
+
+                
                 <div class="box-header">
                     <a href="https://themeforest.net/item/flatkit-app-ui-kit/13231484?ref=flatfull" class="btn btn-xs rounded danger pull-right">BUY</a>
                     <h2>Theme Switcher</h2>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/csbootstrap.min.css" rel="stylesheet">
 
     <meta charset="utf-8" />
     <title>syriabook</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,14 +38,13 @@
     <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
     <!-- endbuild -->
     <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
+
 </head>
 <body>
 <div class="app" id="app">
     <!-- ############ LAYOUT START-->
     <!-- aside -->
     <div id="aside" class="app-aside modal nav-dropdown">
-
-        <!-- fluid app aside -->
         <div class="left navside dark dk" data-layout="column">
             <div class="navbar no-radius">
                 <!-- brand -->
@@ -54,7 +52,7 @@
                     <span class="hidden-folded inline">Flatkit</span>
                 </a>
             </div>
-
+        
             <div class="" data-flex>
                 <nav class="nav-light">
                     <ul class="nav" ui-nav>
@@ -62,27 +60,32 @@
                             <small class="text-muted">Main</small>
                         </li>
                         <li>
-                            <a href="{{route('posts')}}">
-                           <span class="nav-icon">
-                        <i class="material-icons">&#xe3fc;</i>
-                        <span ui-include="'../assets/images/i_0.svg'"></span>
-                    </span>
+                            <a href="{{ route('posts') }}">
+                                <span class="nav-icon">
+                                    <i class="material-icons">&#xe3fc;</i>
+                                    <span ui-include="'../assets/images/i_0.svg'"></span>
+                                </span>
                                 <span class="nav-text">Feeds</span>
                             </a>
+        
+                            <!-- روابط خاصة بالدور الإداري -->
                             @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '2')
                                 <a class="nav-text" href="{{ route('show.tags') }}">Admin Page Tags</a>
                                 <a class="nav-text" href="{{ route('show.report.to.admin') }}">Admin Page Report</a>
                                 <a class="nav-text" href="{{ route('show.users') }}">Users Page</a>
                             @endif
-
+        
+                            <!-- رابط المجموعات -->
                             <a class="nav-text" href="{{ route('show.all.group') }}">Groups Page</a>
-                            @if(Auth::user()->role_id =='3'|| Auth::user()->role_id == '2')
-                            @endif
-                            <a class="nav-text" href="{{route('logout')}}">logout</a>
+        
+                            <!-- رابط الخروج -->
+                            <a class="nav-text" href="{{ route('logout') }}">logout</a>
                         </li>
                     </ul>
                 </nav>
             </div>
+        </div>
+        
             <div class="b-t">
                 <div class="nav-fold">
                     <a href="profile.html">
@@ -141,6 +144,7 @@
         </div>
     </div>
     @yield('content1')
+
     <!-- theme switcher -->
     <div id="switcher">
         <div class="switcher box-color dark-white text-color" id="sw-theme">
@@ -152,6 +156,7 @@
                 <a href="https://themeforest.net/item/flatkit-app-ui-kit/13231484?ref=flatfull" class="btn btn-xs rounded danger pull-right">BUY</a>
                 <h2>Theme Switcher</h2>
             </div>
+            
             <div class="box-divider"></div>
             <div class="box-body">
                 <p class="hidden-md-down">
@@ -457,24 +462,16 @@
 <script src="scripts/ui-screenfull.js"></script>
 <script src="scripts/ui-scroll-to.js"></script>
 <script src="scripts/ui-toggle-class.js"></script>
-
 <script src="scripts/app.js"></script>
-
-<!-- ajax -->
 <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
 <script src="scripts/ajax.js"></script>
-<!-- endbuild -->
 <script src="../libs/jquery/jquery/dist/jquery.js"></script>
-<!-- Bootstrap -->
 <script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
 <script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
-<!-- core -->
 <script src="../libs/jquery/underscore/underscore-min.js"></script>
 <script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
 <script src="../libs/jquery/PACE/pace.min.js"></script>
-
 <script src="scripts/config.lazyload.js"></script>
-
 <script src="scripts/palette.js"></script>
 <script src="scripts/ui-load.js"></script>
 <script src="scripts/ui-jp.js"></script>
@@ -485,15 +482,10 @@
 <script src="scripts/ui-screenfull.js"></script>
 <script src="scripts/ui-scroll-to.js"></script>
 <script src="scripts/ui-toggle-class.js"></script>
-
 <script src="scripts/app.js"></script>
-
 <script>
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- ajax -->
 <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
 <script src="scripts/ajax.js"></script>
 </body>

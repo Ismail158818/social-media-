@@ -81,10 +81,8 @@
                                                         </div>
                                                     </div>
                                                 @endif
-
                                             </div>
                                         </div>
-
                                         <h5 class="card-title text-center mt-3">
                                             <a href="{{route('posts.show', $post->id)}}" class="text-dark">{{ $post->title }}</a>
                                         </h5>
