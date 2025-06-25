@@ -1,103 +1,67 @@
-# Project Description
+# Social Media Platform
 
-## Project Idea
-This project is a web application built using the Laravel framework, aiming to provide an interactive platform for users where they can create and manage posts, comment on them, manage groups, and interact with other users. The project also provides an Application Programming Interface (API) for system interaction.
+## Project Features
 
-## Technical Structure
-- **app/**: Contains the core project code.
-  - **Http/Controllers/**: Contains project controllers such as UserController, PostController, GroupController, CommentController, TagsController, AdminController, and other files.
-  - **Models/**: Contains data models such as User, Post, Group, Comment, Tag, and others.
-  - **View/**: Contains view files.
-  - **Providers/**: Contains service providers.
-- **routes/**: Contains routing files such as web.php and api.php.
-- **resources/views/**: Contains view templates such as posts pages, profile, and others.
-- **config/**: Contains configuration files.
-- **database/**: Contains database files.
-- **public/**: Contains public files such as CSS and JavaScript.
-- **storage/**: Contains stored files.
-- **tests/**: Contains test files.
-- **vendor/**: Contains external libraries.
+This project is a comprehensive social media platform built with Laravel. Below are the main features included:
 
-## Core Features
+### Roles & Permissions
 
-### User Management
-- Login and Registration
-- Personal Information Management
-- Following Other Users
-- View Followers and Following Lists
-- Permission Management (Regular User, Moderator, Admin)
+- **Super Admin**: Full access to all system features, user management, and platform settings.
+- **Admin**: Manage users, posts, comments, groups, and moderate content.
+- **Coach**: Create and manage groups, post content, interact with trainees.
+- **Trainee**: Participate in groups, create posts, comment, and interact with others.
 
-### Post Management
-- Create New Posts
-- View Posts
-- Edit Posts
-- Delete Posts
-- Vote on Posts (Like/Dislike)
-- Search Posts
-- Filter Posts by Tags
+### User Authentication & Profiles
+- User registration, login, and password reset
+- Email verification for new users
+- User profile management (edit profile, change password, upload profile picture)
+- Role-based access (admin, coach, regular user, etc.)
 
-### Group Management
-- Create New Groups
-- Join Groups
-- Manage Group Members
-- Post in Groups
-- Group Permission Management
-- Search Groups
-- Filter Groups by Tags
+### Posts & Comments
+- Create, edit, and delete posts
+- Add images to posts
+- Like and rate posts
+- Comment on posts
+- Edit and delete comments
 
-### Comment Management
-- Add Comments to Posts
-- View Comments
-- Delete Comments
-- Edit Comments
+### Groups & Group Management
+- Create and manage groups
+- Join and leave groups
+- Group admin management
+- Group posts and discussions
 
-### Tag Management
-- Add New Tags
-- Link Tags to Posts
-- Search Tags
-- Filter Content by Tags
+### Tags & Search
+- Tagging system for posts
+- Search posts by tags or keywords
 
-### Reporting System
-- Report Posts
-- Report Groups
-- Report Users
-- View Reports List for Moderators
-- Handle Reports (Accept/Reject)
-- Ban Violating Users
-- Delete Violating Content
+### Chat & Messaging
+- Real-time chat between users
+- Group chat support
+- Favorite messages and users
+- Chat notifications
 
-### Notification System
-- Follow Notifications
-- Comment Notifications
-- Like Notifications
-- Report Notifications
-- Group Notifications
+### Admin Dashboard
+- Manage users, posts, comments, and groups
+- View reports and analytics
+- Tag management
 
-### Application Programming Interface (API)
-- User Login and Registration
-- Post Management
-- Comment Management
-- Group Management
-- Tag Management
-- User Management
+### Notifications
+- In-app notifications for likes, comments, and group activities
+- Email notifications for important events
 
-## Technologies and Packages Used
-- **Laravel**: PHP Framework
-- **Chatify**: Chat Package
-- **Firebase**: Cloud Service
-- **TailwindCSS**: CSS Framework
-- **Vite**: Build Tool
-- **Alpine.js**: JavaScript Library
-- **Select2**: JavaScript Library
-- **Axios**: JavaScript Library
+### Media & File Management
+- Upload and manage images for posts and profiles
+- Media gallery for users and groups
 
-## Interfaces and Pages
-- **Posts Page**: View posts, add new posts, search and filter
-- **Profile Page**: View user information, posts, followers, following
-- **Groups Page**: View groups, create new groups, manage groups
-- **Tags Page**: View tags, add new tags, search tags
-- **Admin Page**: Manage users, posts, groups, tags, reports
-- **Reports Page**: View reports, handle reports, manage violating content
+### Security & Moderation
+- Role-based permissions and middleware
+- Reporting system for inappropriate content
+- Admin moderation tools
 
-## Conclusion
-This project provides a comprehensive interactive platform for users to interact with each other through posts, comments, and groups. It also offers a robust content management system with the ability to report and handle violating content. The project supports future expansion and development while maintaining user and content safety and security.
+### Responsive Design
+- Mobile-friendly and responsive UI
+- RTL (Right-to-Left) support for Arabic and other languages
+
+---
+
+For any questions or contributions, please open an issue or pull request on the repository.
