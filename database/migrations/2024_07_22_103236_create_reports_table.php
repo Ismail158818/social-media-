@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('post_id');
             $table->foreignId('user_id');
             $table->string('title');
-            $table->string('note');
-            $table->string('content');
+            $table->text('note');
+            $table->text('content');
             $table->unsignedBigInteger('group_id')->nullable();
             $table->timestamps();
         });

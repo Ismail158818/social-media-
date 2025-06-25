@@ -15,15 +15,13 @@ class TagsTableSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            ['tag_name' => 'Laravel', 'user_id' => 1],
-            ['tag_name' => 'ASP', 'user_id' => 1],
-            ['tag_name' => 'C#', 'user_id' => 1],
-            ['tag_name' => 'C++', 'user_id' => 1],
-            ['tag_name' => 'Java', 'user_id' => 1],
-            ['tag_name' => 'SQL', 'user_id' => 1],
+            ['tag_name' => 'Laravel'],
+            ['tag_name' => 'ASP'],
+            ['tag_name' => 'C#'],
+            ['tag_name' => 'C++'],
+            ['tag_name' => 'Java'],
+            ['tag_name' => 'SQL'],
         ];
-
-
 
         foreach ($tags as $tag) {
             Tag::create($tag);

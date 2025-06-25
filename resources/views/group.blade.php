@@ -1,5 +1,5 @@
 @extends('layouts.m')
-@section('content1')
+@section('c')
     <div class="app" id="app">
         <!-- App Aside Section -->
         <div id="aside" class="app-aside modal nav-dropdown">
@@ -17,20 +17,7 @@
                     <a data-toggle="modal" data-target="#aside" class="hidden-lg-up mr-3">
                         <i class="material-icons">&#xe5d2;</i>
                     </a>
-                    <div class="mb-0 h5 no-wrap" ng-bind="$state.current.data.title" id="pageTitle"></div>
-                    <div class="collapse navbar-collapse" id="collapse">
-                        <ul class="nav navbar-nav mr-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href data-toggle="dropdown">
-                                    <i class="fa fa-fw fa-plus text-muted"></i>
-                                    <span>New</span>
-                                </a>
-                                <div ui-include="'../views/blocks/dropdown.new.html'"></div>
-                            </li>
-                        </ul>
-                        <div ui-include="'../views/blocks/navbar.form.html'"></div>
-                    </div>
-                </div>
+                    
             </div>
 
             <div ui-view class="app-body" id="view">
@@ -63,9 +50,15 @@
                                     <h3 class="m-0 m-b-xs">{{$group->first()->name}}</h3>
                                     @if(auth()->user()->role_id != 2 && auth()->user()->role_id != 1)
                                         @if ($buttonText == 'joined')
-                                            <a href="{{ route('join.group',  ['id' => $group->id]) }}" class="btn btn-sm warn btn-rounded m-b">Joined</a>
+                                            <form action="{{ route('join.group', ['id' => $group->id]) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm warn btn-rounded m-b">Joined</button>
+                                            </form>
                                         @else
-                                            <a href="{{ route('join.group',  ['id' => $group->id]) }}" class="btn btn-sm warn btn-rounded m-b">Join</a>
+                                            <form action="{{ route('join.group', ['id' => $group->id]) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm warn btn-rounded m-b">Join</button>
+                                            </form>
                                         @endif
                                     @endif
                                 </div>
@@ -183,7 +176,7 @@
                         </div>
                     </div>
 
-                    <!-- Modal for Add Tags -->
+                    <!-- Modal for Adding Tag -->
                     <div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="addTagModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -213,13 +206,13 @@
                     <div class="box">
                         @foreach($posts as $post)
                             @if($post->status == 1)
-                                <div class="card mb-4 shadow-sm">
+                                <div class="card mb-4 shadow-sm post-card">
                                     <div class="card-body">
                                         <small class="text-muted d-block">{{ $post->created_at->diffForHumans() }}</small>
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex">
                                                 @if(!empty($post->user->image))
-                                                    <img src="{{ asset($post->user->image) }}" class="rounded-circle mr-2" style="width: 35px; height: 35px; object-fit: cover;" alt="User Image">
+                                                    <img src="{{ asset($post->user->image) }}" class="rounded-circle mr-2" style="width: 32px; height: 32px; object-fit: cover;" alt="User Image">
                                                 @endif
                                                 <div>
                                                     <a href="{{ route('profile', $post->user->id) }}" class="text-primary">{{ $post->user->name }}</a>
@@ -236,21 +229,20 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <div class="mr-3">
+                                                <div class="mr-2">
                                                     @if($isMember || auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-                                                        <a href="{{route('posts.upVote', $post->id)}}" class="btn btn-icon btn-light @if($post->authedRating?->pivot->type == 'upVote') bg-primary @endif white">
-                                                            <i class="fa fa-thumbs-up text-success"></i>
+                                                        <a href="{{route('posts.upVote', $post->id)}}" class="like-btn @if($post->authedRating?->pivot->type == 'upVote') active @endif" title="Like">
+                                                            <i class="fa fa-thumbs-up"></i>
                                                         </a>
                                                         <span>{{$post->upVotesCount}}</span>
-                                                        <a href="{{route('posts.downVote', $post->id)}}" class="btn btn-icon btn-light @if($post->authedRating?->pivot->type == 'downVote') bg-primary @endif white">
-                                                            <i class="fa fa-thumbs-down text-danger"></i>
+                                                        <a href="{{route('posts.downVote', $post->id)}}" class="dislike-btn @if($post->authedRating?->pivot->type == 'downVote') active @endif" title="Dislike">
+                                                            <i class="fa fa-thumbs-down"></i>
                                                         </a>
                                                         <span>{{$post->downVotesCount}}</span>
                                                     @endif
-
                                                 </div>
                                                 @if($post->user->id == auth()->user()->id || auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-                                                    <a href="{{ route('delete.post.group', ['id' => $post->id]) }}" class="btn btn-sm btn-danger btn-rounded shadow-lg animate__animated animate__pulse">
+                                                    <a href="{{ route('delete.post.group', ['id' => $post->id]) }}" class="btn btn-sm btn-danger btn-rounded shadow-lg animate__animated animate__pulse ml-2">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 @endif
@@ -262,7 +254,7 @@
                                         <p class="card-text">{{ $post->content }}</p>
                                         @if(!empty($post->image))
                                             <div class="text-center my-3">
-                                                <img src="{{ asset($post->image) }}" alt="Post Image" class="img-fluid img-square" style="max-width: 100%; width: 600px; height: auto;">
+                                                <img src="{{ asset($post->image) }}" alt="Post Image" class="img-fluid img-square" style="max-width: 100%; width: 400px; height: auto; border-radius: 10px;">
                                             </div>
                                         @endif
                                         @if($isMember || auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
@@ -284,22 +276,22 @@
                                         @if($post->comments != null)
                                             <div class="mt-3">
                                                 @foreach($post->comments as $comment)
-                                                    <div class="media mb-3 p-3 shadow-sm" style="background-color: #f1f3f5; border-radius: 10px;">
-                                                        <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
-                                                        <div class="d-flex w-100 align-items-center mt-2">
-                                                            @if(!empty($comment->user->image))
-                                                                <img src="{{ asset($comment->user->image) }}" class="mr-3 rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" alt="User Image">
-                                                            @endif
-                                                            <div class="media-body flex-grow-1">
-                                                                <h6 class="mt-0 font-weight-bold">{{ $comment->user->name }}</h6>
-                                                                <p>{{ $comment->content }}</p>
+                                                    <div class="comment-card d-flex align-items-start">
+                                                        @if(!empty($comment->user->image))
+                                                            <img src="{{ asset($comment->user->image) }}" alt="User Image">
+                                                        @endif
+                                                        <div class="media-body">
+                                                            <div class="comment-meta">
+                                                                <span class="comment-user">{{ $comment->user->name }}</span>
+                                                                <span>{{ $comment->created_at->diffForHumans() }}</span>
                                                             </div>
-                                                            @if($post->user->id == auth()->user()->id ||$comment->user->id == auth()->user()->id|| auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-                                                                <a href="{{ route('delete.post.or.comment', ['id' => $post->id, 'type' => 'comment']) }}" class="btn btn-sm btn-danger ml-auto">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </a>
-                                                            @endif
+                                                            <div class="comment-content">{{ $comment->content }}</div>
                                                         </div>
+                                                        @if($post->user->id == auth()->user()->id ||$comment->user->id == auth()->user()->id|| auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                                            <a href="{{ route('delete.post.or.comment', ['id' => $post->id, 'type' => 'comment']) }}" class="btn btn-sm btn-danger ml-auto" style="margin-left:10px;">
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        @endif
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -376,60 +368,94 @@
             </div>
         </div>
         <style>
-            .card:nth-child(odd) .card-body {
-                background-color: #f8f9fa; /* لون فاتح */
+            /* تصغير حجم البوست */
+            .card.post-card, .card.mb-4.shadow-sm {
+                max-width: 1000px;
+                margin: 0 0 1.5rem 0;
+                border-radius: 16px;
+                box-shadow: 0 4px 16px rgba(67, 97, 238, 0.07);
+                padding: 0.5rem 0.7rem 0.7rem 0.7rem;
             }
-            .card:nth-child(even) .card-body {
-                background-color: #e9ecef; /* لون أغمق قليلاً */
+            .card-body {
+                padding: 0.7rem 1rem 1rem 1rem;
+            }
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+            }
+            .card-text {
+                font-size: 0.97rem;
+                margin-bottom: 0.5rem;
+            }
+            /* زر اللايك والديسلايك */
+            .like-btn, .dislike-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                font-size: 1.2rem;
+                margin-right: 7px;
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+                box-shadow: 0 2px 8px rgba(67, 97, 238, 0.07);
+            }
+            .like-btn {
+                background: #e3f6f5;
+                color: #2196f3;
+            }
+            .like-btn.active, .like-btn:hover {
+                background: #2196f3;
+                color: #fff;
+            }
+            .dislike-btn {
+                background: #fff0f3;
+                color: #f44336;
+            }
+            .dislike-btn.active, .dislike-btn:hover {
+                background: #f44336;
+                color: #fff;
+            }
+            /* شكل التعليقات */
+            .comment-card {
+                background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
+                border-radius: 12px;
+                padding: 12px 16px;
+                margin-bottom: 10px;
+                box-shadow: 0 2px 8px rgba(67, 97, 238, 0.04);
+                font-size: 0.97rem;
+                border-left: 4px solid #4361ee;
+                position: relative;
+            }
+            .comment-card .media-body {
+                font-size: 0.97rem;
+            }
+            .comment-card .comment-meta {
+                font-size: 0.85rem;
+                color: #888;
+                margin-bottom: 2px;
+            }
+            .comment-card .comment-user {
+                font-weight: bold;
+                color: #3f37c9;
+                margin-right: 8px;
+            }
+            .comment-card .comment-content {
+                color: #333;
+                margin-bottom: 0;
+            }
+            .comment-card:not(:last-child) {
+                border-bottom: 1px dashed #bdbdbd;
+            }
+            .comment-card img {
+                width: 32px;
+                height: 32px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-right: 10px;
+                border: 1.5px solid #e3e6ea;
             }
         </style>
+    </div>
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

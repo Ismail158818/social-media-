@@ -143,7 +143,8 @@
             </div>
         </div>
     </div>
-    @yield('content1')
+    
+    @yield('c')
 
     <!-- theme switcher -->
     <div id="switcher">

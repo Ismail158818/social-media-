@@ -22,14 +22,17 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'c',
+        'role_id',
         'block',
         'facebook',
         'twitter',
-        'linked in',
+        'linkedin',
         'google',
         'image',
-        'fcm_token'
+        'fcm_token',
+        'active_status',
+        'dark_mode',
+        'avatar'
     ];
 
     /**
@@ -40,8 +43,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'block',
-        'image'
+        'fcm_token'
     ];
 
     /**
@@ -54,6 +56,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'block' => 'boolean',
+            'active_status' => 'boolean',
+            'dark_mode' => 'boolean'
         ];
     }
     public function posts()
@@ -100,5 +105,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class)->withPivot('is_admin');
     }
 
+    /**
+     * Check if user has a specific role
+     */
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
 
+    /**
+     * Check if user is admin or superadmin
+     */
+    public function isAdmin()
+    {
+        return $this->role && in_array($this->role->name, ['admin', 'superAdmin']);
+    }
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Fun_Services\Fun_User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -78,7 +79,38 @@ public function addMembers_services(Request $request)
         return redirect()->back();
     }
 
+    public function blockUser($id)
+    {
+        // Check if the authenticated user is admin or superadmin
+        if (auth()->user()->role_id != 1 && auth()->user()->role_id != 2) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
 
+        $user = User::findOrFail($id);
+        
+        // Prevent blocking admins or superadmins
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            return redirect()->back()->with('error', 'Cannot block administrators.');
+        }
 
+        $user->block = true;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User has been blocked successfully.');
+    }
+
+    public function unblockUser($id)
+    {
+        // Check if the authenticated user is admin or superadmin
+        if (auth()->user()->role_id != 1 && auth()->user()->role_id != 2) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $user = User::findOrFail($id);
+        $user->block = false;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User has been unblocked successfully.');
+    }
 
 }

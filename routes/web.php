@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::get('up-vote/{id}', 'upVote')->name('posts.upVote');
         Route::get('down-vote/{id}', 'downVote')->name('posts.downVote');
         Route::get('/tag-search', 'dataAjax')->name('search1');
-        Route::get('delete-post-or-comment',  'delete_post_or_comment')->name('delete.post.or.comment');
+        Route::post('delete-post-or-comment-or-account',  'delete_post_or_comment_or_account')->name('delete.post.or.comment');
         Route::post('posts-report/{post}', 'report')->name('posts.report');
         Route::post('posts-search', 'search')->name('posts.search');
         Route::post('edit-post', 'edit_post')->name('post.edit');
@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('posts_tag', 'filter')->name('posts.filter');
         Route::get('up-vote/{id}', 'upVote')->name('upVote');
         Route::get('down-vote/{id}', 'downVote')->name('downVote');
-        Route::post('tags_user', 'tags_user')->name('tags.user');
+        Route::post('tags-user', 'tags_user')->name('tags.user');
         Route::post('search', 'search')->name('search1');
     });
 
@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(GroupController::class)->group(function () {
         Route::post('creat-group','creat_group')->name('creat.group');
-        Route::get('join-group','join_group')->name('join.group');
+        Route::post('join-group/{id}','join_group')->name('join.group');
         Route::get('group/{id}', 'group')->name('group.show');
         Route::get('show-groups','show_groups')->name('show.groups');
         Route::post('store', 'post_store_group')->name('posts.store.group');
@@ -94,6 +94,11 @@ Route::middleware('auth')->group(function () {
             return view('login1');
         })->name('login1');
     });
+
+    // Block/Unblock User Routes
+    Route::get('/block-user/{id}', [UserController::class, 'blockUser'])->name('block.user');
+    Route::get('/unblock-user/{id}', [UserController::class, 'unblockUser'])->name('unblock.user');
+    Route::delete('delete-user',[UserController::class, 'Delete_user'])->name('delete_user');
 });
 
 require __DIR__.'/auth.php';

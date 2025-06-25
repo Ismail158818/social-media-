@@ -196,9 +196,16 @@ class GroupController extends Controller
         $show = new Fun_Group();
         $data = $show->show_all_group_services();
 
+        // فلترة المجموعات التي المستخدم الحالي أدمن فيها
+        $adminGroups = collect($data['groupsJoined'])->filter(function($group) {
+            $user = $group->users->find(auth()->id());
+            return $user && $user->pivot->is_admin == 1;
+        });
+
         return view('show_all_group', [
             'groupsNotJoined' => $data['groupsNotJoined'],
-            'groupsJoined' => $data['groupsJoined']
+            'groupsJoined' => $data['groupsJoined'],
+            'adminGroups' => $adminGroups,
         ]);
     }
     public function status_group(Request $request)

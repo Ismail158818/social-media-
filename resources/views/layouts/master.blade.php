@@ -65,6 +65,12 @@
         border-color: #007bff;
     }
 
+    .dropdown-menu-left {
+        left: auto;
+        right: 0;
+        transform: translateX(-100%);
+    }
+
 </style>
 
     <meta charset="utf-8" />
@@ -112,6 +118,7 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 <body>
+    
 <div class="app" id="app">
     <div id="aside" class="app-aside modal nav-dropdown">
         <div class="left navside dark dk" data-layout="column">
@@ -128,10 +135,7 @@
                         </li>
                         <li>
                             <a href="{{route('posts')}}">
-                    <span class="nav-icon">
-                        <i class="material-icons">&#xe3fc;</i>
-                        <span ui-include="'../assets/images/i_0.svg'"></span>
-                    </span>
+                   
                                 <span class="nav-text">Feeds</span>
                             </a>
                             @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '2')
@@ -152,11 +156,13 @@
             <div class="b-t">
                 <div class="nav-fold">
                     <a href="profile.html">
-                        @if(!empty(auth()->user()->image))
-                            <div class="mr-3">
-                                <img src="{{ asset(auth()->user()->image) }}" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;" alt="Post Image">
-                            </div>
-                        @endif
+                        <img src="{{asset('storage/' . auth()->user()->image)  }}" 
+                                     class="rounded-circle mr-3" 
+                                     width="50" 
+                                     height="50" 
+                                     alt="User"
+                                     onerror="this.src='{{ asset('images/Default_image.jpg') }}'">
+                    
                         <span class="clear hidden-folded p-x">
                             <a href="{{ route('profile', ['id' => auth()->user()->id]) }}">{{ auth()->user()->name }}</a>
         	      <small class="block text-muted"><i class="fa fa-circle text-success m-r-sm"></i>online</small>
@@ -167,6 +173,8 @@
         </div>
     </div>
     <div id="content" class="app-content box-shadow-z0" role="main">
+        <br>
+        <br>
         @yield('content2')
         <div class="app-header white box-shadow">
             <div class="navbar navbar-toggleable-sm flex-row align-items-center">
@@ -183,29 +191,18 @@
                         </button>
                     </form>
                     
-                    @if(Route::currentRouteName() == 'posts'&&auth()->user()->block!=1)
-                        @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
-                            <button class="btn btn-info mb-2 create-group-btn" data-toggle="modal" data-target="#createGroupModal">Create Group</button>
-                        @endif
-                            <button class="btn btn-primary create-post-btn" data-toggle="modal" data-target="#createPostModal">Create New Post</button>
-
-                        @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                            <button class="btn btn-info mb-2 create-group-btn" onclick="openTagModal()">
-                                Add New Tag
-                            </button>
-                            @endif
-                    @endif
+                  
                     @if(Route::currentRouteName() == 'show.all.group'&&auth()->user()->block!=1)
-                        @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
-                            <button class="btn btn-info mb-2 create-group-btn" data-toggle="modal" data-target="#createGroupModal">Create Group</button>
-                        @endif
+
                         @endif
                 </div>
 
-
-
-                
-                  
+                <!-- ضع هذا الكود في الهيدر العلوي (app-header أو navbar) -->
+                <div class="dropdown d-inline-block ml-3">
+                  <div class="dropdown">
+                    <!-- Removed the settings (gear) button and its dropdown -->
+                  </div>
+                </div>
             </div>
 
         </div>
@@ -218,12 +215,11 @@
             <div class="content-section">
                 @yield('content8')
             </div>
-        </div>
+        </div> @yield('content')
         <div ui-view class="app-body" id="view">
             <div class="padding">
 
                 <div class="row">
-                    @yield('content')
                     @yield('content7')
                     @section('content6')
                 </div>
@@ -235,93 +231,82 @@
         <!-- theme switcher -->
         <div id="switcher">
             <div class="switcher box-color dark-white text-color" id="sw-theme">
+                <div class="dropdown">
+                    <a href="#" class="box-color dark-white text-color sw-btn dropdown-toggle" id="gearDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-gear"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gearDropdown">
+                        @if(Route::currentRouteName() == 'profile')
+                          @if(auth()->user()->id == ($user->id ?? null))
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal">
+                              <i class="fas fa-edit mr-2"></i> Edit Profile
+                            </a>
+                            <a class="dropdown-item" href="delete_user" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+                              <i class="fas fa-trash-alt mr-2"></i> Delete Account
+                            </a>
+                          @elseif(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                            @if(isset($user) && $user->block)
+                              <a class="dropdown-item" href="{{ route('unblock.user', $user->id) }}">
+                                <i class="fas fa-unlock mr-2"></i> Unblock Account
+                              </a>
+                            @else
+                              <a class="dropdown-item" href="{{ route('block.user', $user->id) }}">
+                                <i class="fas fa-lock mr-2"></i> Block Account
+                              </a>
+                            @endif
+                          @endif
+                        @else
+                          @if(Route::currentRouteName() != 'show.all.group')
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#createPostModal">
+                              <i class="fas fa-plus mr-2"></i> Add Post
+                            </a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addTagModal">
+                              <i class="fas fa-tag mr-2"></i> Add Tag
+                            </a>
+                          @endif
+                          @if(Route::currentRouteName() == 'show.all.group')
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#createGroupModal">
+                              <i class="fas fa-users mr-2"></i> Add Group
+                            </a>
+                          @endif
+                        @endif
+                        @if(($isMember ?? false) || auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                        <div class="dropdown-divider"></div>
+                        <div class="d-flex flex-column mb-3 p-3">
+                            <!-- زر إضافة مشاركة -->
+                            <button type="button" class="btn btn-primary btn-sm mb-2" data-toggle="modal" data-target="#addPostModal" id="addPostButton">
+                                <i class="fa fa-plus"></i> Add Post
+                            </button>
 
+                            <!-- زر إضافة وسوم -->
+                            <button type="button" class="btn btn-info btn-sm mb-2" data-toggle="modal" data-target="#addTagModal" id="addTagButton">
+                                <i class="fa fa-tags"></i> Add Tags
+                            </button>
 
+                            @if(($isAdmin ?? false) == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
+                                <!-- زر صفحة الإدارة -->
+                                @if(isset($group))
+                                <a href="{{ route('show.reports', ['id' => $group->id]) }}" class="btn btn-success btn-sm mb-2">
+                                    <i class="fa fa-cog"></i> Page Admin
+                                </a>
+                                @endif
+                            @endif
 
-
-                <a href ui-toggle-class="active" target="#sw-theme" class="box-color dark-white text-color sw-btn">
-                    <i class="fa fa-gear"></i>
-                </a>
-
-
-
-                
+                            @if(($isAdmin ?? false) || auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                <!-- زر حذف المجموعة -->
+                                @if(isset($group))
+                                <a href="{{ route('delete.group', ['group_id' => $group->id]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this group?')">
+                                    <i class="fa fa-trash"></i> Delete Group
+                                </a>
+                                @endif
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+                </div>
                 <div class="box-header">
                     <a href="https://themeforest.net/item/flatkit-app-ui-kit/13231484?ref=flatfull" class="btn btn-xs rounded danger pull-right">BUY</a>
                     <h2>Theme Switcher</h2>
-                </div>
-                <div class="box-divider"></div>
-                <div class="box-body">
-                    <p class="hidden-md-down">
-                        <label class="md-check m-y-xs"  data-target="folded">
-                            <input type="checkbox">
-                            <i class="green"></i>
-                            <span class="hidden-folded">Folded Aside</span>
-                        </label>
-                        <label class="md-check m-y-xs" data-target="boxed">
-                            <input type="checkbox">
-                            <i class="green"></i>
-                            <span class="hidden-folded">Boxed Layout</span>
-                        </label>
-                        <label class="m-y-xs pointer" ui-fullscreen>
-                            <span class="fa fa-expand fa-fw m-r-xs"></span>
-                            <span>Fullscreen Mode</span>
-                        </label>
-                    </p>
-                    <p>Colors:</p>
-                    <p data-target="themeID">
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'primary', accent:'accent', warn:'warn'}">
-                            <input type="radio" name="color" value="1">
-                            <i class="primary"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'accent', accent:'cyan', warn:'warn'}">
-                            <input type="radio" name="color" value="2">
-                            <i class="accent"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'warn', accent:'light-blue', warn:'warning'}">
-                            <input type="radio" name="color" value="3">
-                            <i class="warn"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'success', accent:'teal', warn:'lime'}">
-                            <input type="radio" name="color" value="4">
-                            <i class="success"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'info', accent:'light-blue', warn:'success'}">
-                            <input type="radio" name="color" value="5">
-                            <i class="info"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'blue', accent:'indigo', warn:'primary'}">
-                            <input type="radio" name="color" value="6">
-                            <i class="blue"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'warning', accent:'grey-100', warn:'success'}">
-                            <input type="radio" name="color" value="7">
-                            <i class="warning"></i>
-                        </label>
-                        <label class="radio radio-inline m-0 ui-check ui-check-color ui-check-md" data-value="{primary:'danger', accent:'grey-100', warn:'grey-300'}">
-                            <input type="radio" name="color" value="8">
-                            <i class="danger"></i>
-                        </label>
-                    </p>
-                    <p>Themes:</p>
-                    <div data-target="bg" class="row no-gutter text-u-c text-center _600 clearfix">
-                        <label class="p-a col-sm-6 light pointer m-0">
-                            <input type="radio" name="theme" value="" hidden>
-                            Light
-                        </label>
-                        <label class="p-a col-sm-6 grey pointer m-0">
-                            <input type="radio" name="theme" value="grey" hidden>
-                            Grey
-                        </label>
-                        <label class="p-a col-sm-6 dark pointer m-0">
-                            <input type="radio" name="theme" value="dark" hidden>
-                            Dark
-                        </label>
-                        <label class="p-a col-sm-6 black pointer m-0">
-                            <input type="radio" name="theme" value="black" hidden>
-                            Black
-                        </label>
-                    </div>
                 </div>
             </div>
 
@@ -513,7 +498,6 @@
 
         if (title && content) {
             alert("Form submitted with title: " + title + " and content: " + content);
-
             var modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
             modal.hide();
         } else {
@@ -597,5 +581,75 @@
 <!-- ajax -->
 <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
 <script src="scripts/ajax.js"></script>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<!-- Add Tag Modal -->
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="addTagModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('tags.user') }}" method="POST">
+          @csrf
+          <div class="form-group">
+            <label for="tag_name">Tag Name</label>
+            <input type="text" name="tag_name" class="form-control" id="tag_name" placeholder="Enter tag name" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Tag</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Group Modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('creat.group') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="form-group">
+            <label for="name">Group Name:</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Group Description:</label>
+            <input type="text" name="description" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="photo">Group image:</label>
+            <input class="form-control" name="photo" type="file" id="photo" required>
+          </div>
+          @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
+            @isset($users)
+            <div class="form-group">
+              <label for="users">Select Users:</label>
+              <select name="users[]" id="users" class="form-control select2" multiple required>
+                @foreach($users as $user)
+                  <option value="{{ $user->id }}">{{ $user->name }}</option>
+                @endforeach
+              </select>
+            </div>
+            @endisset
+          @endif
+          <button type="submit" class="btn btn-info mt-2">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

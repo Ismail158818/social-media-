@@ -121,6 +121,7 @@ class Fun_Post
         public function delete_post_or_comment_or_account_services($request)
         {
             $post = Post::find($request->id);
+            
             if($request->type=='post')
             {
                 $post->comments()->delete();

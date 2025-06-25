@@ -13,16 +13,21 @@ class CheckAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,... $role): Response
+    public function handle(Request $request, Closure $next, ...$role): Response
     {
+        if (!auth()->check()) {
 
-        if(in_array(auth()->user()->role->id,$role))
-        {
-            return $next($request);
-        }else
-        {
-            abort(403,'anAuth');
+            abort(403, 'Unauthorized');
         }
-
+    
+        $user = auth()->user();
+    
+        // تأكد إنه عنده علاقة role وموجودة فعلاً
+        if ($user->role && in_array($user->role->id, $role)) {
+            return $next($request);
+        }
+    
+        abort(403, 'Unauthorized');
     }
+    
 }

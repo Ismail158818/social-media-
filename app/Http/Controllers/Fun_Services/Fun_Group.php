@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Fun_Group
 {
@@ -45,10 +46,8 @@ class Fun_Group
     {
         $userId = auth()->user()->id;
         $groupId = $request->id;
-        $group = Group::find($groupId);
-        if ($group) {
+        $group = Group::findOrFail($groupId);
             $group->users()->toggle([$userId => ['is_admin' => 0]]);
-        }
     }
 
     public function group_services($id)
@@ -100,9 +99,16 @@ class Fun_Group
         $imagePaths = [];
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
+                $destinationPath = public_path('images');
+                // Ensure the directory exists and is writable
+                if (!file_exists($destinationPath)) {
+                    // Attempt to create the directory with read/write permissions for owner, and read for others
+                    // The 'true' argument enables recursive creation
+                    mkdir($destinationPath, 0755, true);
+                }
                 // تخزين الصورة في مجلد public/images مع اسمها الأصلي
                 $imageName = time() . '_' . $photo->getClientOriginalName();
-                $photo->move(public_path('images'), $imageName); // تخزين الصورة في مجلد public/images
+                $photo->move($destinationPath, $imageName); // تخزين الصورة في مجلد public/images
                 $imagePaths[] = 'images/' . $imageName;
             }
         }

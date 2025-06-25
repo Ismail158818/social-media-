@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Models\Utag;
 use App\Models\Report;
+use Illuminate\Support\Facades\Storage;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -91,6 +92,61 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        if (auth()->user()->id !== $post->user_id) {
+            return redirect()->back()->with('error', 'You are not authorized to edit this post.');
+        }
+        return view('pages.posts.edit', compact('post'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+        if (auth()->user()->id !== $post->user_id) {
+            return redirect()->back()->with('error', 'You are not authorized to update this post.');
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($post->image) {
+                Storage::delete('public/' . $post->image);
+            }
+            $post->image = $request->file('image')->store('posts', 'public');
+        }
+
+        $post->save();
+
+        return redirect()->route('posts.show', $post->id)->with('success', 'Post updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        if (auth()->user()->id !== $post->user_id) {
+            return redirect()->back()->with('error', 'You are not authorized to delete this post.');
+        }
+
+        // Delete post image if exists
+        if ($post->image) {
+            Storage::delete('public/' . $post->image);
+        }
+
+        $post->delete();
+
+        return redirect()->route('posts')->with('success', 'Post deleted successfully.');
+    }
+
+  
 }
 

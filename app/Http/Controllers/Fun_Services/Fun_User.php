@@ -4,6 +4,7 @@ namespace  App\Http\Controllers\Fun_Services;
 use App\Models\Group;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class Fun_User
 {
@@ -33,7 +34,14 @@ class Fun_User
             ->whereNull('group_id')
             ->with(['tags', 'comments' => function ($query) {
                 $query->take(4);
-            }])
+            }]) ->withCount([
+                'usersRatings as upVotesCount' => function ($q) {
+                    $q->where('type', 'upVote');
+                },
+                'usersRatings as downVotesCount' => function ($q) {
+                    $q->where('type', 'downVote');
+                }
+            ])
             ->paginate(4);
         // جلب المنشورات التي قمت بالتعليق عليها سواء كانت منشوراتي او منشورات احد غيري
 
@@ -178,20 +186,21 @@ class Fun_User
         $user = User::find($request->id);
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename); // حفظ الصورة في مجلد 'public/images'
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('profile_pictures', $filename, 'public');
 
             // اسم الصورة الافتراضية
-            $defaultImage = 'Default_image.jpg';
+            $defaultImage = 'images/Default_image.jpg';
 
             // التحقق مما إذا كانت الصورة الحالية للمستخدم ليست الصورة الافتراضية قبل محاولة حذفها
-            if ($user->image && basename($user->image) != $defaultImage) {
-                if (file_exists(public_path($user->image))) {
-                    unlink(public_path($user->image));
+            if ($user->image && $user->image != $defaultImage) {
+                if (Storage::disk('public')->exists($user->image)) {
+                    Storage::disk('public')->delete($user->image);
                 }
             }
 
-            $user->image = 'images/' . $filename;
+            // Store the full path
+            $user->image = 'profile_pictures/' . $filename;
         }
 
         $user->name = $request->name;

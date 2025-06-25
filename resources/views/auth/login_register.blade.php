@@ -5,37 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <title>Modern Login Or Register Page | AsmrProg</title>
+    <title>Login & Register | Social Media</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: #c9d6ff;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
             background-color: #fff;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
-            width: 900px; /* تعديل العرض */
-            max-width: 100%;
-            min-height: 600px; /* تعديل الارتفاع */
+            width: 1300px;
+            max-width: 98vw;
+            min-height: 800px;
+            padding: 30px 0;
         }
 
         .container p {
@@ -43,36 +42,49 @@
             line-height: 20px;
             letter-spacing: 0.3px;
             margin: 20px 0;
+            color: #666;
         }
 
         .container span {
-            font-size: 12px;
+            font-size: 13px;
+            color: #666;
         }
 
         .container a {
-            color: #333;
+            color: #667eea;
             font-size: 13px;
             text-decoration: none;
             margin: 15px 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .container a:hover {
+            color: #764ba2;
         }
 
         .container button {
-            background-color: #512da8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
-            font-size: 12px;
-            padding: 10px 45px;
-            border: 1px solid transparent;
-            border-radius: 8px;
+            font-size: 13px;
+            padding: 12px 45px;
+            border: none;
+            border-radius: 50px;
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             margin-top: 10px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
         .container button.hidden {
-            background-color: transparent;
-            border-color: #fff;
+            background: transparent;
+            border: 2px solid #fff;
         }
 
         .container form {
@@ -86,14 +98,26 @@
         }
 
         .container input {
-            background-color: #eee;
+            background-color: #f5f5f5;
             border: none;
             margin: 8px 0;
-            padding: 10px 15px;
-            font-size: 13px;
-            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 14px;
+            border-radius: 50px;
             width: 100%;
             outline: none;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .container input::placeholder {
+            color: #999;
+        }
+
+        .container input:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.4);
+            background-color: #fff;
+            border: 1px solid #667eea;
         }
 
         .form-container {
@@ -101,6 +125,7 @@
             top: 0;
             height: 100%;
             transition: all 0.6s ease-in-out;
+            padding: 0;
         }
 
         .sign-in {
@@ -128,13 +153,11 @@
         }
 
         @keyframes move {
-            0%,
-            49.99% {
+            0%, 49.99% {
                 opacity: 0;
                 z-index: 1;
             }
-            50%,
-            100% {
+            50%, 100% {
                 opacity: 1;
                 z-index: 5;
             }
@@ -142,43 +165,44 @@
 
         .social-icons {
             margin: 20px 0;
-        }
-        /* تحديد الألوان المخصصة */
-        .icon .fa-facebook {
-            color: #3b5998; /* لون فيسبوك */
-        }
-        .icon .fa-twitter {
-            color: #1da1f2; /* لون تويتر */
-        }
-        .icon .fa-google-plus {
-            color: #db4437; /* لون جوجل بلس */
-        }
-        .icon .fa-linkedin {
-            color: #0077b5; /* لون لينكد إن */
+            display: flex;
+            gap: 15px;
         }
 
-        /* تغيير لون الأيقونة عند الوقوف عليها */
-        .icon:hover .fa-facebook {
-            color: #2d4373;
-        }
-        .icon:hover .fa-twitter {
-            color: #1a91da;
-        }
-        .icon:hover .fa-google-plus {
-            color: #c23321;
-        }
-        .icon:hover .fa-linkedin {
-            color: #005983;
-        }
         .social-icons a {
-            border: 1px solid #ccc;
-            border-radius: 20%;
+            border: 1px solid #ddd;
+            border-radius: 50%;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin: 0 3px;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .icon i {
+            font-size: 20px;
+        }
+
+        .icon .fa-google {
+            color: #DB4437;
+        }
+
+        .icon .fa-facebook {
+            color: #4267B2;
+        }
+
+        .icon .fa-github {
+            color: #333;
+        }
+
+        .icon .fa-linkedin {
+            color: #0077B5;
         }
 
         .toggle-container {
@@ -199,9 +223,8 @@
         }
 
         .toggle {
-            background-color: #512da8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             height: 100%;
-            background: linear-gradient(to right, #5c6bc0, #512da8);
             color: #fff;
             position: relative;
             left: -100%;
@@ -223,7 +246,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding: 0 30px;
+            padding: 0 40px;
             text-align: center;
             top: 0;
             transform: translateX(0);
@@ -247,121 +270,264 @@
             transform: translateX(200%);
         }
 
-        /* إضافة CSS لتحديد الألوان المخصصة */
-        .icon .fa-facebook {
-            color: #3b5998; /* لون فيسبوك */
-        }
-        .icon .fa-twitter {
-            color: #1da1f2; /* لون تويتر */
-        }
-        .icon .fa-google-plus {
-            color: #db4437; /* لون جوجل بلس */
-        }
-        .icon .fa-linkedin {
-            color: #0077b5; /* لون لينكد إن */
+        .image-upload-container {
+            width: 100%;
+            max-width: 350px;
+            margin: 15px auto;
+            text-align: center;
         }
 
-        /* تغيير لون الأيقونة عند الوقوف عليها */
-        .icon:hover .fa-facebook {
-            color: #2d4373;
+        .image-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 8px 0;
+            min-height: 48px;
         }
-        .icon:hover .fa-twitter {
-            color: #1a91da;
+
+        .image-upload-label:hover {
+            background-color: #eee;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
-        .icon:hover .fa-google-plus {
-            color: #c23321;
+
+        .image-upload-label i {
+            font-size: 20px;
+            color: #667eea;
+            margin-right: 10px;
+            margin-bottom: 0;
+            transition: all 0.3s ease;
         }
-        .icon:hover .fa-linkedin {
-            color: #005983;
+
+        .image-upload-label:hover i {
+            transform: scale(1.05);
+        }
+
+        .image-upload-label p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .image-upload-label.image-selected {
+            background-color: #e6ffe6;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .image-upload-label.image-selected i {
+            color: #4CAF50;
+        }
+
+        .image-upload-label.image-selected p {
+            color: #4CAF50;
+        }
+
+        .image-upload-label:hover.image-selected {
+            background-color: #d9ffd9;
+            box-shadow: 0 3px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .image-upload-input {
+            display: none;
+        }
+
+        h1 {
+            font-weight: 600;
+            margin: 0;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .toggle-panel h1 {
+            color: #fff;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-panel p {
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.5;
+            margin: 20px 0 30px;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                min-height: 800px;
+            }
+            
+            .form-container {
+                width: 100%;
+            }
+            
+            .toggle-container {
+                display: none;
+            }
+            
+            .sign-up {
+                transform: translateX(100%);
+            }
+            
+            .container.active .sign-up {
+                transform: translateX(0);
+            }
+            
+            .container.active .sign-in {
+                transform: translateX(-100%);
+            }
+        }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 16px;
+            z-index: 2;
+        }
+        .input-group input {
+            padding-left: 45px !important;
         }
     </style>
 </head>
 
 <body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fab fa-google"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-user"></i></span>
+                    <input type="text" name="name" placeholder="Name" required />
+                </div>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-envelope"></i></span>
+                    <input type="email" name="email" placeholder="Email" required />
+                </div>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-phone"></i></span>
+                    <input type="tel" name="phone_number" placeholder="Phone Number" required />
+                </div>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-lock"></i></span>
+                    <input type="password" name="password" placeholder="Password" required />
+                </div>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-lock"></i></span>
+                    <input type="password" name="password_confirmation" placeholder="Confirm Password" required />
+                </div>
+                <div class="image-upload-container">
+                    <input type="file" id="profile_picture" name="image" accept="image/*" class="image-upload-input" />
+                    <label for="profile_picture" class="image-upload-label" id="uploadLabel">
+                        <i class="fas fa-cloud-upload-alt" id="uploadIcon"></i>
+                        <span id="uploadText">Upload Profile Picture (Optional)</span>
+                    </label>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
 
-<div class="container" id="container">
-    <div class="form-container sign-up">
-        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-            @csrf
-            <h1>Create Account</h1>
-            <div class="social-icons">
-                <a href="#" class="icon"><i class="fa fa-google-plus red"></i></a>
-                <a href="#" class="icon"><i class="fa fa-facebook indigo"></i></a>
-                <a href="#" class="icon"><i class="fa fa-github"></i></a>
-                <a href="#" class="icon"><i class="fa fa-linkedin cyan-600"></i></a>
-            </div>
-            <span>or use your email for registration</span>
-            <input id="name" type="text" name="name" placeholder="Name" value="{{ old('name') }}" required autocomplete="name">
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="form-container sign-in">
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fab fa-google"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <span>or use your email for login</span>
+                
+                <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus autocomplete="username">
+                <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
-            <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="username">
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <input id="password" type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
 
-            <input id="phone_number" type="text" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
-            <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
+                <a href="{{ route('password.request') }}">Forgot Your Password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
 
-            <input id="password" type="password" name="password" placeholder="Password" required autocomplete="new-password">
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-
-            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm Password" required autocomplete="new-password">
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-
-            <input type="file" id="profile_picture" name="image" accept="image/*" class="block mt-1 w-full">
-            <x-input-error :messages="$errors->get('profile_picture')" class="mt-2" />
-
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
-    <div class="form-container sign-in">
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <h1>Sign In</h1>
-            <div class="social-icons">
-                <a href="#" class="icon"><i class="fa fa-google-plus red"></i></a>
-                <a href="#" class="icon"><i class="fa fa-facebook indigo"></i></a>
-                <a href="#" class="icon"><i class="fa fa-github"></i></a>
-                <a href="#" class="icon"><i class="fa fa-linkedin cyan-600"></i></a>
-            </div>
-            <span>or use your email for login</span>
-            <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus autocomplete="username">
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
-            <input id="password" type="password" name="password" placeholder="Password" required autocomplete="current-password">
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-
-            <a href="{{ route('password.request') }}">Forget Your Password?</a>
-            <button type="submit">Sign In</button>
-        </form>
-    </div>
-    <div class="toggle-container">
-        <div class="toggle">
-            <div class="toggle-panel toggle-left">
-                <h1>Welcome Back!</h1>
-                <p>Enter your personal details to use all of site features</p>
-                <button class="hidden" id="login">Sign In</button>
-            </div>
-            <div class="toggle-panel toggle-right">
-                <h1>Hello, Friend!</h1>
-                <p>Register with your personal details to use all of site features</p>
-                <button class="hidden" id="register">Sign Up</button>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    const container = document.getElementById('container');
-    const registerBtn = document.getElementById('register');
-    const loginBtn = document.getElementById('login');
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+        const imageInput = document.getElementById('profile_picture');
+        const uploadLabel = document.getElementById('uploadLabel');
+        const uploadIcon = document.getElementById('uploadIcon');
+        const uploadText = document.getElementById('uploadText');
 
-    registerBtn.addEventListener('click', () => {
-        container.classList.add("active");
-    });
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
 
-    loginBtn.addEventListener('click', () => {
-        container.classList.remove("active");
-    });
-</script>
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+
+        // Handle image selection
+        if (imageInput) {
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadLabel.classList.add('image-selected');
+                    uploadIcon.classList.remove('fa-cloud-upload-alt');
+                    uploadIcon.classList.add('fa-check-circle');
+                    uploadText.textContent = 'Image Selected (Click to change)';
+                } else {
+                    uploadLabel.classList.remove('image-selected');
+                    uploadIcon.classList.remove('fa-check-circle');
+                    uploadIcon.classList.add('fa-cloud-upload-alt');
+                    uploadText.textContent = 'Upload Profile Picture (Optional)';
+                }
+            });
+        }
+    </script>
 </body>
-
 </html>
